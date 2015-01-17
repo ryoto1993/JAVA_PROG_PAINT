@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
 public class Paint {
@@ -12,7 +14,7 @@ public class Paint {
 
 }
 
-class MainModule extends JFrame {
+class MainModule extends JFrame implements ActionListener {
     JPanel mainbox, toolbox, optionbox, statusbox;
     JMenuBar menu = new JMenuBar();
     JMenu m_file;
@@ -52,6 +54,7 @@ class MainModule extends JFrame {
 
         menuItemExit = new JMenuItem("Exit");
         menuItemExit.setMnemonic(KeyEvent.VK_X);
+        menuItemExit.addActionListener(this);
 
 
         // component setting
@@ -74,4 +77,7 @@ class MainModule extends JFrame {
     }
 
 
+    public void actionPerformed(ActionEvent e) {
+        if(e.getSource()==menuItemExit) System.exit(1);
+    }
 }
