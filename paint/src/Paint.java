@@ -3,12 +3,8 @@ import java.awt.event.*;
 */
 import javax.swing.*;
 
-public class paint extends JFrame {
-    public static void main(String[] args) {
-        new paint();
-    }
-
-    public paint() {
+public class Paint extends JFrame {
+    public Paint() {
         // set look and feel
         try {
             UIManager
@@ -21,9 +17,15 @@ public class paint extends JFrame {
         SwingUtilities.updateComponentTreeUI(this);
 
         // set frame
-        this.setSize(300, 230);
+        this.setSize(650, 500);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setTitle("Simple Paint");
         this.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+
+        Paint Paint = new Paint();
+
     }
 }
