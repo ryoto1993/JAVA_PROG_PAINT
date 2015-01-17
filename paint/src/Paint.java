@@ -3,8 +3,20 @@ import java.awt.event.*;
 */
 import javax.swing.*;
 
-public class Paint extends JFrame {
-    public Paint() {
+public class Paint {
+
+
+    public static void main(String[] args) {
+
+        MainFrame MainFrame = new MainFrame();
+
+    }
+
+
+}
+
+class MainFrame extends JFrame {
+    public MainFrame() {
         // set look and feel
         try {
             UIManager
@@ -21,11 +33,5 @@ public class Paint extends JFrame {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setTitle("Simple Paint");
         this.setVisible(true);
-    }
-
-    public static void main(String[] args) {
-
-        Paint Paint = new Paint();
-
     }
 }
