@@ -113,6 +113,7 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
         mi_setCanvasColor.setMnemonic(KeyEvent.VK_C);
         mi_setCanvasColor.addActionListener(this);
         mi_setCanvasColor.setActionCommand("mi_set_color");
+        mi_setCanvasColor.setEnabled(false);
 
         mi_setCanvasSize = new JMenuItem("Set canvas size");
         mi_setCanvasSize.setMnemonic(KeyEvent.VK_S);
@@ -267,13 +268,15 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
             paintModule.changeSize(dlg.showDialog());
         }
 
+        /*
         if(e.getActionCommand().equals("mi_set_color")) {
             JColorChooser chooser = new JColorChooser();
             paintModule.backColor = chooser.showDialog(
                     this, "Choose canvas back color.", paintModule.backColor);
-            paintModule.setForeground(paintModule.backColor);
-            paintModule.repaint();
+            paintModule.setBackground(paintModule.backColor);
+            paintModule.changeBackColor();
         }
+        */
 
         if(e.getActionCommand().equals("mi_save")) {
             FileFilter pngFilter = new FileNameExtensionFilter(

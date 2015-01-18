@@ -25,8 +25,6 @@ class PaintModule extends JPanel implements MouseInputListener {
     JSlider penSizeSlider = new JSlider(1, 20, 3);
 
     public Color currentColor = Color.BLACK;
-    public Color backColor = Color.WHITE;
-
 
     public PaintModule() {
         this.startPoint = new Point(0,0);
@@ -52,7 +50,6 @@ class PaintModule extends JPanel implements MouseInputListener {
         addMouseListener(this);
 
         mode = Mode.PEN;
-
     }
 
     public void changeSize(Point newSize) {
@@ -65,6 +62,7 @@ class PaintModule extends JPanel implements MouseInputListener {
             super.setVisible(true);
 
     }
+
 
     public void setMode(Mode m) {
         this.mode = m;
@@ -84,10 +82,12 @@ class PaintModule extends JPanel implements MouseInputListener {
     }
 
     public void paint(Graphics g) {
+        int init = 0;
         Graphics2D tmpG = (Graphics2D)g;
         if(canvas==null)
             canvas = (BufferedImage)createImage(size.x, size.y);
         Graphics2D globalG = canvas.createGraphics();
+        tmpG.clearRect(0, 0, size.x, size.y);
 
         globalG.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
