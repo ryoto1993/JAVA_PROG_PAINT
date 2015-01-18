@@ -77,7 +77,7 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
     public void createMenu(JMenuBar menu) {
         // component
         JMenu m_file, m_edit, m_canvas, m_help;
-        JMenuItem mi_new, mi_save, mi_open, mi_exit, mi_setCanvasSize;
+        JMenuItem mi_new, mi_save, mi_open, mi_exit, mi_setCanvasColor, mi_setCanvasSize;
 
         // set component
         m_file = new JMenu("File");
@@ -109,7 +109,12 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
         m_canvas = new JMenu("Canvas");
         m_canvas.setMnemonic(KeyEvent.VK_C);
 
-        mi_setCanvasSize = new JMenuItem("Set Canvas Size");
+        mi_setCanvasColor = new JMenuItem("Set canvas back color");
+        mi_setCanvasColor.setMnemonic(KeyEvent.VK_C);
+        mi_setCanvasColor.addActionListener(this);
+        mi_setCanvasColor.setActionCommand("mi_set_color");
+
+        mi_setCanvasSize = new JMenuItem("Set canvas size");
         mi_setCanvasSize.setMnemonic(KeyEvent.VK_S);
         mi_setCanvasSize.addActionListener(this);
         mi_setCanvasSize.setActionCommand("mi_set_size");
@@ -128,6 +133,7 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
         menu.add(m_edit);
 
         menu.add(m_canvas);
+        m_canvas.add(mi_setCanvasColor);
         m_canvas.add(mi_setCanvasSize);
 
         menu.add(m_help);
@@ -261,6 +267,14 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
             paintModule.changeSize(dlg.showDialog());
         }
 
+        if(e.getActionCommand().equals("mi_set_color")) {
+            JColorChooser chooser = new JColorChooser();
+            paintModule.backColor = chooser.showDialog(
+                    this, "Choose canvas back color.", paintModule.backColor);
+            paintModule.setForeground(paintModule.backColor);
+            paintModule.repaint();
+        }
+
         if(e.getActionCommand().equals("mi_save")) {
             FileFilter pngFilter = new FileNameExtensionFilter(
                     "PNG(Portable Network Graphics) files", "png");
@@ -285,16 +299,16 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
 
         // tool button action
         if(e.getActionCommand().equals("tool_pen"))
-            paintModule.mode = PaintModule.Mode.PEN;
+            paintModule.setMode(PaintModule.Mode.PEN);
 
         if(e.getActionCommand().equals("tool_line"))
-            paintModule.mode = PaintModule.Mode.LINE;
+            paintModule.setMode(PaintModule.Mode.LINE);
 
         if(e.getActionCommand().equals("tool_rectangle"))
-            paintModule.mode = PaintModule.Mode.RECTANGLE;
+            paintModule.setMode(PaintModule.Mode.RECTANGLE);
 
         if(e.getActionCommand().equals("tool_circle"))
-            paintModule.mode = PaintModule.Mode.CIRCLE;
+            paintModule.setMode(PaintModule.Mode.CIRCLE);
 
         // option button action
         if(e.getActionCommand().equals("color_pick")) {

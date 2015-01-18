@@ -24,7 +24,8 @@ class PaintModule extends JPanel implements MouseInputListener {
     public JLabel sizeLabel = new JLabel();
     JSlider penSizeSlider = new JSlider(1, 20, 3);
 
-    Color currentColor = Color.BLACK;
+    public Color currentColor = Color.BLACK;
+    public Color backColor = Color.WHITE;
 
 
     public PaintModule() {
@@ -41,11 +42,8 @@ class PaintModule extends JPanel implements MouseInputListener {
 
         super.setVisible(true);
 
-        this.setBackground(new Color(255, 255, 255));
-        this.setForeground(new Color(255, 255, 255));
         this.setBorder(new LineBorder(Color.BLACK, 1, true));
         this.setName("canvas");
-        this.setBackground(Color.white);
         this.canvas = null;
 
         repaint();
@@ -54,8 +52,6 @@ class PaintModule extends JPanel implements MouseInputListener {
         addMouseListener(this);
 
         mode = Mode.PEN;
-
-        // this.setPreferredSize(new Dimension(size.x, size.y));
 
     }
 
@@ -87,12 +83,17 @@ class PaintModule extends JPanel implements MouseInputListener {
         return this.canvas;
     }
 
-
     public void paint(Graphics g) {
         Graphics2D tmpG = (Graphics2D)g;
         if(canvas==null)
             canvas = (BufferedImage)createImage(size.x, size.y);
         Graphics2D globalG = canvas.createGraphics();
+
+        globalG.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+        tmpG.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
+
         tmpG.drawImage(canvas, 0, 0, null);
 
         switch (mode) {
@@ -185,23 +186,26 @@ class PaintModule extends JPanel implements MouseInputListener {
     }
 
     public void mouseReleased(MouseEvent e) {
+        Graphics2D actG = (Graphics2D)this.canvas.getGraphics();
+        actG.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
         switch (mode) {
             case PEN:
                 break;
             case LINE:
-                writeLine(this.canvas.createGraphics(),this.BasicPen,
+                writeLine(actG,this.BasicPen,
                         currentColor,
                         new BasicStroke(penSizeSlider.getValue(),BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
                         ,this.startPoint,this.endPoint);
                 break;
             case RECTANGLE:
-                writeRectangle(this.canvas.createGraphics(),this.BasicRectangle,
+                writeRectangle(actG,this.BasicRectangle,
                         currentColor,
                         new BasicStroke(penSizeSlider.getValue(),BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
                         ,this.startPoint,this.endPoint);
                 break;
             case CIRCLE:
-                writeCircle(this.canvas.createGraphics(), this.BasicEllipse,
+                writeCircle(actG, this.BasicEllipse,
                         currentColor,
                         new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
                         , this.startPoint, this.endPoint);
