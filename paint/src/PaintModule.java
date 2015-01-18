@@ -6,17 +6,30 @@ import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
 class PaintModule extends JPanel implements MouseMotionListener {
-    private Point start = new Point();
-    private Point end = new Point();
+    private Point start = new Point(-10, -10);
+    private Point end = new Point(-10, -10);
     public Point current = new Point();
     public Point size = new Point(400, 300);
+    public JLabel coordinate = new JLabel("(0, 0)");
+    public JLabel sizeLabel = new JLabel();
     private Line2D.Double line = new Line2D.Double();
     BufferedImage image, canvas = null;
 
     public PaintModule() {
         super.setVisible(true);
         this.setPreferredSize(new Dimension(size.x, size.y));
+        sizeLabel.setText(size.x +"×"+ size.y);
         addMouseMotionListener(this);
+    }
+
+    public void changeSize(Point newSize) {
+        BufferedImage tmpCanvas = canvas;
+        size = newSize;
+        sizeLabel.setText(size.x +"×"+ size.y);
+        canvas = (BufferedImage)createImage(size.x, size.y);
+        Graphics2D buf = tmpCanvas.createGraphics();
+        buf.drawImage(canvas, 0, 0, null);
+        buf.dispose();
     }
 
     public void setImage (BufferedImage img) {
@@ -49,11 +62,13 @@ class PaintModule extends JPanel implements MouseMotionListener {
     public void mouseDragged(MouseEvent e) {
         end.setLocation(e.getPoint());
         current.setLocation(e.getPoint());
+        coordinate.setText("(" + e.getX() + ", " + e.getY() + ")");
         repaint();
     }
 
     public void mouseMoved(MouseEvent e) {
         start.setLocation(e.getPoint());
         current.setLocation(e.getPoint());
+        coordinate.setText("(" + e.getX() + ", " + e.getY() + ")");
     }
 }

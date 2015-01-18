@@ -7,9 +7,7 @@ import java.awt.event.KeyEvent;
 class MainModule extends JFrame implements ActionListener {
     JMenuBar menu;
     JPanel mainbox, toolbox, optionbox, statusbar;
-    PaintModule paintModule;
-    int point_x = 0, point_y = 0, canvas_x = 400, canvas_y = 300;
-
+    public PaintModule paintModule;
 
     public MainModule() {
         // set look and feel
@@ -81,8 +79,8 @@ class MainModule extends JFrame implements ActionListener {
 
         mi_setCanvasSize = new JMenuItem("Set Canvas Size");
         mi_setCanvasSize.setMnemonic(KeyEvent.VK_S);
-        mi_exit.addActionListener(this);
-        mi_exit.setActionCommand("mi_set_size");
+        mi_setCanvasSize.addActionListener(this);
+        mi_setCanvasSize.setActionCommand("mi_set_size");
 
         m_help = new JMenu("Help");
         m_help.setMnemonic(KeyEvent.VK_H);
@@ -131,16 +129,14 @@ class MainModule extends JFrame implements ActionListener {
 
     public void createStatusBar(JPanel bar) {
         // create component
-        JLabel sizeinfo = new JLabel(
-                canvas_x +"×"+ canvas_y +"    ("+ point_x +","+ point_y +")");
 
         // set component
         bar.setPreferredSize(new Dimension(getWidth(), 25));
         bar.setBackground(Color.LIGHT_GRAY);
-        sizeinfo.setHorizontalAlignment(JLabel.LEFT);
 
         // add into container
-        bar.add(sizeinfo);
+        bar.add(paintModule.sizeLabel);
+        bar.add(paintModule.coordinate);
 
     }
 
@@ -150,7 +146,8 @@ class MainModule extends JFrame implements ActionListener {
             System.exit(1);
 
         if(e.getActionCommand()=="mi_set_size") {
-
+            CanvasSizeSetting dlg = new CanvasSizeSetting(this, paintModule.size);
+            paintModule.changeSize(dlg.showDialog());
         }
 
         // tool button action
