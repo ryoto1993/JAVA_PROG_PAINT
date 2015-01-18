@@ -134,8 +134,14 @@ class MainModule extends JFrame implements ActionListener {
         JToggleButton toggleButtonSquare = new JToggleButton("Square");
 
         // set component
+        Dimension buttonDimension = new Dimension(80, 30);
         box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
-        box.setPreferredSize(new Dimension(60, this.getHeight()));
+        box.setPreferredSize(new Dimension(70, this.getHeight()));
+        toggleButtonPen.setMaximumSize(buttonDimension);
+        toggleButtonPaintBrush.setMaximumSize(buttonDimension);
+        toggleButtonEraser.setMaximumSize(buttonDimension);
+        toggleButtonSelect.setMaximumSize(buttonDimension);
+        toggleButtonSquare.setMaximumSize(buttonDimension);
 
         // add listener
         toggleButtonPen.addActionListener(this);
