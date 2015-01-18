@@ -14,6 +14,7 @@ class MainModule extends JFrame implements ActionListener {
     JMenuBar menu;
     JPanel paintBox, toolbox, optionbox, statusbar;
     JScrollPane mainbox;
+    JToggleButton buttonColorPicker;
     ColorPicker clr = new ColorPicker();
     private BufferedImage img;
     public PaintModule paintModule;
@@ -176,8 +177,8 @@ class MainModule extends JFrame implements ActionListener {
         // create component
         JPanel simpleColorPicker = new JPanel(new GridLayout(13,2));
         JToggleButton[] buttons = new JToggleButton[26];
-        JButton buttonColorPicker = new JButton("MORE");
         ButtonGroup buttonGroupColors = new ButtonGroup();
+        buttonColorPicker = new JToggleButton("MORE");
 
         for(int i=0; i<26; i++) {
             buttons[i] = new JToggleButton();
@@ -190,11 +191,14 @@ class MainModule extends JFrame implements ActionListener {
                     clr.colorList[i][2]));
         }
         buttons[0].setSelected(true);
+        buttonGroupColors.add(buttonColorPicker);
 
         // set component
         simpleColorPicker.setPreferredSize(new Dimension(70, 300));
         //box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
         box.setPreferredSize(new Dimension(70, this.getHeight()));
+        buttonColorPicker.addActionListener(this);
+        buttonColorPicker.setActionCommand("color_pick");
 
         // add into container
         for(int i=0; i<26; i++) {
@@ -270,6 +274,13 @@ class MainModule extends JFrame implements ActionListener {
             paintModule.mode = PaintModule.Mode.RECTANGLE;
 
         // option button action
+        if(e.getActionCommand().equals("color_pick")) {
+            JColorChooser chooser = new JColorChooser();
+            paintModule.currentColor = chooser.showDialog(
+                    this, "Color Picker", paintModule.currentColor);
+            buttonColorPicker.setBackground(paintModule.currentColor);
+        }
+
         for(int i=0; i<26; i++) {
             if(e.getActionCommand().equals("color"+i)) {
                 paintModule.setColor(new Color(
