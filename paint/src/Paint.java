@@ -15,10 +15,8 @@ public class Paint {
 }
 
 class MainModule extends JFrame implements ActionListener {
-    JPanel mainbox, toolbox, optionbox, statusbox;
     JMenuBar menu = new JMenuBar();
-    JMenu m_file;
-    JMenuItem menuItemExit;
+    JPanel mainbox, toolbox, optionbox, statusbox;
 
     public MainModule() {
         // set look and feel
@@ -49,13 +47,7 @@ class MainModule extends JFrame implements ActionListener {
         optionbox = new JPanel();
         statusbox = new JPanel();
 
-        m_file = new JMenu("File");
-        m_file.setMnemonic(KeyEvent.VK_F);
-
-        menuItemExit = new JMenuItem("Exit");
-        menuItemExit.setMnemonic(KeyEvent.VK_X);
-        menuItemExit.addActionListener(this);
-
+        createMenu(menu);
 
         // component setting
         this.setLayout(new BorderLayout());
@@ -70,14 +62,43 @@ class MainModule extends JFrame implements ActionListener {
         this.add(optionbox, BorderLayout.EAST);
         this.add(statusbox, BorderLayout.SOUTH);
 
-        menu.add(m_file);
-
-        m_file.add(menuItemExit);
-
     }
 
+    public void createMenu(JMenuBar menu) {
+        // component
+        JMenu m_file, m_edit, m_canvas, m_help;
+        JMenuItem menuItemExit;
+
+        // set component
+        m_file = new JMenu("File");
+        m_file.setMnemonic(KeyEvent.VK_F);
+
+        menuItemExit = new JMenuItem("Exit");
+        menuItemExit.setMnemonic(KeyEvent.VK_X);
+        menuItemExit.addActionListener(this);
+        menuItemExit.setActionCommand("mi_exit");
+
+        m_edit = new JMenu("Edit");
+        m_edit.setMnemonic(KeyEvent.VK_E);
+
+        m_canvas = new JMenu("Canvas");
+        m_canvas.setMnemonic(KeyEvent.VK_C);
+
+        m_help = new JMenu("Help");
+        m_help.setMnemonic(KeyEvent.VK_H);
+
+        // add into container
+        menu.add(m_file);
+        m_file.add(menuItemExit);
+
+        menu.add(m_edit);
+
+        menu.add(m_canvas);
+
+        menu.add(m_help);
+    }
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()==menuItemExit) System.exit(1);
+        if(e.getActionCommand()=="mi_exit") System.exit(1);
     }
 }
