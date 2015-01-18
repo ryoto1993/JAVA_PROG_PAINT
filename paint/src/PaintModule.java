@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 class PaintModule extends JPanel implements MouseInputListener {
        public enum Mode {
-        PEN, LINE, ERASER, RECTANGLE
+        PEN, LINE, ERASER, RECTANGLE, CIRCLE
     }
     private Point startPoint, endPoint, draggedPoint, releasedPoint;
     BufferedImage canvas;
@@ -112,6 +112,12 @@ class PaintModule extends JPanel implements MouseInputListener {
                         new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
                         ,this.startPoint,this.endPoint);
                 break;
+            case CIRCLE:
+                writeCircle(tmpG, this.BasicEllipse,
+                        currentColor,
+                        new BasicStroke(3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                        , this.startPoint, this.endPoint);
+                break;
         }
 
         globalG.dispose();
@@ -138,6 +144,14 @@ class PaintModule extends JPanel implements MouseInputListener {
         graphics.setColor(c);
         graphics.setStroke(s);
         ((Rectangle2D) shape).setRect(start.getX(),start.getY(),end.getX()-start.getX(), end.getY()-start.getY()) ;
+        if(!start.equals(ZEROPOINT) && !end.equals(ZEROPOINT)) {
+            graphics.draw(shape);
+        }
+    }
+    private void writeCircle(Graphics2D graphics, Shape shape, Color c, Stroke s, Point start, Point end) {
+        graphics.setColor(c);
+        graphics.setStroke(s);
+        ((Ellipse2D) shape).setFrameFromDiagonal(start,end);
         if(!start.equals(ZEROPOINT) && !end.equals(ZEROPOINT)) {
             graphics.draw(shape);
         }
@@ -181,6 +195,12 @@ class PaintModule extends JPanel implements MouseInputListener {
                 break;
             case RECTANGLE:
                 writeRectangle(this.canvas.createGraphics(),this.BasicRectangle,
+                        currentColor,
+                        new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
+                        ,this.startPoint,this.endPoint);
+                break;
+            case CIRCLE:
+                writeCircle(this.canvas.createGraphics(),this.BasicEllipse,
                         currentColor,
                         new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
                         ,this.startPoint,this.endPoint);

@@ -135,8 +135,7 @@ class MainModule extends JFrame implements ActionListener {
         JToggleButton toggleButtonPen = new JToggleButton("Pen", true);
         JToggleButton toggleButtonLine = new JToggleButton("Line");
         JToggleButton toggleButtonRectangle = new JToggleButton("Rect.");
-        JToggleButton toggleButtonSelect = new JToggleButton("Select");
-        JToggleButton toggleButtonSquare = new JToggleButton("Square");
+        JToggleButton toggleButtonCircle = new JToggleButton("Circle");
 
         // set component
         Dimension buttonDimension = new Dimension(80, 30);
@@ -145,8 +144,7 @@ class MainModule extends JFrame implements ActionListener {
         toggleButtonPen.setMaximumSize(buttonDimension);
         toggleButtonLine.setMaximumSize(buttonDimension);
         toggleButtonRectangle.setMaximumSize(buttonDimension);
-        toggleButtonSelect.setMaximumSize(buttonDimension);
-        toggleButtonSquare.setMaximumSize(buttonDimension);
+        toggleButtonCircle.setMaximumSize(buttonDimension);
 
         // add listener
         toggleButtonPen.addActionListener(this);
@@ -155,21 +153,21 @@ class MainModule extends JFrame implements ActionListener {
         toggleButtonLine.setActionCommand("tool_line");
         toggleButtonRectangle.addActionListener(this);
         toggleButtonRectangle.setActionCommand("tool_rectangle");
+        toggleButtonCircle.addActionListener(this);
+        toggleButtonCircle.setActionCommand("tool_circle");
 
         // set button group
         ButtonGroup buttonGroupToolButton = new ButtonGroup();
         buttonGroupToolButton.add(toggleButtonPen);
         buttonGroupToolButton.add(toggleButtonLine);
         buttonGroupToolButton.add(toggleButtonRectangle);
-        buttonGroupToolButton.add(toggleButtonSelect);
-        buttonGroupToolButton.add(toggleButtonSquare);
+        buttonGroupToolButton.add(toggleButtonCircle);
 
         // add into container
         box.add(toggleButtonPen);
         box.add(toggleButtonLine);
         box.add(toggleButtonRectangle);
-        box.add(toggleButtonSelect);
-        box.add(toggleButtonSquare);
+        box.add(toggleButtonCircle);
 
     }
 
@@ -272,6 +270,9 @@ class MainModule extends JFrame implements ActionListener {
 
         if(e.getActionCommand().equals("tool_rectangle"))
             paintModule.mode = PaintModule.Mode.RECTANGLE;
+
+        if(e.getActionCommand().equals("tool_circle"))
+            paintModule.mode = PaintModule.Mode.CIRCLE;
 
         // option button action
         if(e.getActionCommand().equals("color_pick")) {
