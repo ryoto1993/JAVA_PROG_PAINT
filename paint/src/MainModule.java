@@ -12,7 +12,8 @@ import java.io.IOException;
 
 class MainModule extends JFrame implements ActionListener {
     JMenuBar menu;
-    JPanel mainbox, toolbox, optionbox, statusbar;
+    JPanel paintBox, toolbox, optionbox, statusbar;
+    JScrollPane mainbox;
     ColorPicker clr = new ColorPicker();
     private BufferedImage img;
     public PaintModule paintModule;
@@ -42,8 +43,9 @@ class MainModule extends JFrame implements ActionListener {
     public void manageComponent() {
         // create and set component
         menu = new JMenuBar();
-        mainbox = new JPanel();
+        mainbox = new JScrollPane();
         toolbox = new JPanel();
+        paintBox = new JPanel();
         optionbox = new JPanel();
         statusbar = new JPanel();
         paintModule = new PaintModule();
@@ -56,7 +58,9 @@ class MainModule extends JFrame implements ActionListener {
         this.setLayout(new BorderLayout());
 
         // add component to container
-        mainbox.add(paintModule);
+        paintBox.add(paintModule);
+        mainbox.setViewportView(paintBox);
+
 
         this.add(menu, BorderLayout.NORTH);
         this.add(mainbox, BorderLayout.CENTER);
