@@ -15,7 +15,6 @@ public class CanvasSizeSetting extends JDialog implements ActionListener {
     JButton cancel = new JButton("Cancel");
     JTextField fx = new JTextField();
     JTextField fy = new JTextField();
-    boolean flag = true;
     public Point result = new Point();
 
     public CanvasSizeSetting(JFrame parent,Point size) {

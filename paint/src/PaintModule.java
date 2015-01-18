@@ -23,13 +23,17 @@ class PaintModule extends JPanel implements MouseMotionListener {
     }
 
     public void changeSize(Point newSize) {
+        super.setVisible(false);
+        this.setPreferredSize(new Dimension(size.x, size.y));
         BufferedImage tmpCanvas = canvas;
-        size = newSize;
+        size.setLocation(newSize);
+        this.setSize(new Dimension(size.x, size.y));
         sizeLabel.setText(size.x +"×"+ size.y);
         canvas = (BufferedImage)createImage(size.x, size.y);
         Graphics2D buf = tmpCanvas.createGraphics();
         buf.drawImage(canvas, 0, 0, null);
         buf.dispose();
+        super.setVisible(true);
     }
 
     public void setImage (BufferedImage img) {
