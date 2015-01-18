@@ -25,7 +25,7 @@ class MainModule extends JFrame implements ActionListener {
         manageComponent();
 
         // set frame
-        this.setSize(650, 500);
+        this.setSize(700, 500);
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setTitle("Simple Paint");
         this.setVisible(true);
@@ -43,6 +43,7 @@ class MainModule extends JFrame implements ActionListener {
         // component setting
         createToolBox(toolbox);
         createMenu(menu);
+        createOptionBox(optionbox);
         createStatusBar(statusbar);
         this.setLayout(new BorderLayout());
 
@@ -125,6 +126,32 @@ class MainModule extends JFrame implements ActionListener {
         box.add(toggleButtonSelect);
         box.add(toggleButtonSquare);
 
+    }
+
+    public void createOptionBox(JPanel box) {
+        // create component
+        JPanel simpleColorPicker = new JPanel(new GridLayout(12,2));
+        JToggleButton[] buttons = new JToggleButton[24];
+        JButton buttonColorPicker = new JButton("MORE");
+        ButtonGroup buttonGroupColors = new ButtonGroup();
+
+        for(int i=0; i<24; i++) {
+            buttons[i] = new JToggleButton();
+            buttonGroupColors.add(buttons[i]);
+        }
+        buttons[0].setSelected(true);
+
+        // set component
+        box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+        box.setPreferredSize(new Dimension(90, this.getHeight()));
+
+        // add into container
+        for(int i=0; i<24; i++) {
+            simpleColorPicker.add(buttons[i]);
+        }
+
+        box.add(simpleColorPicker);
+        box.add(buttonColorPicker);
     }
 
     public void createStatusBar(JPanel bar) {
