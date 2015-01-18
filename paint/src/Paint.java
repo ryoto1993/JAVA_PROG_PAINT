@@ -1,8 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
+import java.awt.geom.Line2D;
+import java.awt.image.BufferedImage;
 
 public class Paint {
     public static void main(String[] args) {
@@ -15,7 +15,9 @@ public class Paint {
 class MainModule extends JFrame implements ActionListener {
     JMenuBar menu;
     JPanel mainbox, toolbox, optionbox, statusbar;
+    PaintModule paintModule;
     int point_x = 0, point_y = 0, canvas_x = 400, canvas_y = 300;
+
 
     public MainModule() {
         // set look and feel
@@ -46,6 +48,7 @@ class MainModule extends JFrame implements ActionListener {
         toolbox = new JPanel();
         optionbox = new JPanel();
         statusbar = new JPanel();
+        paintModule = new PaintModule();
 
         // component setting
         createToolBox(toolbox);
@@ -54,6 +57,8 @@ class MainModule extends JFrame implements ActionListener {
         this.setLayout(new BorderLayout());
 
         // add component to container
+        mainbox.add(paintModule);
+
         this.add(menu, BorderLayout.NORTH);
         this.add(mainbox, BorderLayout.CENTER);
         this.add(toolbox, BorderLayout.WEST);
@@ -157,5 +162,58 @@ class MainModule extends JFrame implements ActionListener {
         }
 
         // tool button action
+    }
+}
+
+class PaintModule extends JPanel implements MouseMotionListener {
+    private Point start = new Point();
+    private Point end = new Point();
+    public Point current = new Point();
+    public Point size = new Point(400, 300);
+    private Line2D.Double line = new Line2D.Double();
+    BufferedImage image, canvas = null;
+
+    public PaintModule() {
+        super.setVisible(true);
+        this.setPreferredSize(new Dimension(size.x, size.y));
+        addMouseMotionListener(this);
+    }
+
+    public void setImage (BufferedImage img) {
+        image = img;
+    }
+
+    public void paint(Graphics g) {
+        Graphics2D g2 = (Graphics2D)g;
+
+        if(canvas==null)
+            canvas = (BufferedImage)createImage(size.x, size.y);
+
+        Graphics2D buf = canvas.createGraphics();
+        buf.setBackground(Color.WHITE);
+        buf.drawImage(image, 0, 0, null);
+        buf.drawImage(canvas, 0, 0, null);
+        buf.setStroke(new BasicStroke(3.0f));
+        buf.setPaint(Color.RED);
+        line.setLine(start, end);
+        buf.draw(line);
+        start.setLocation(end);
+        g2.drawImage(canvas, 0, 0, null);
+        buf.dispose();
+    }
+
+    public BufferedImage getCanvas(){
+        return canvas;
+    }
+
+    public void mouseDragged(MouseEvent e) {
+        end.setLocation(e.getPoint());
+        current.setLocation(e.getPoint());
+        repaint();
+    }
+
+    public void mouseMoved(MouseEvent e) {
+        start.setLocation(e.getPoint());
+        current.setLocation(e.getPoint());
     }
 }
