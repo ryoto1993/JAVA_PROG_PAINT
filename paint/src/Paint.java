@@ -139,7 +139,7 @@ class MainModule extends JFrame implements ActionListener {
 
         // set component
         bar.setPreferredSize(new Dimension(getWidth(), 25));
-
+        bar.setBackground(Color.LIGHT_GRAY);
         sizeinfo.setHorizontalAlignment(JLabel.LEFT);
 
         // add into container
