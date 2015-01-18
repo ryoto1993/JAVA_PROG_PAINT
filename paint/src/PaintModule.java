@@ -9,7 +9,7 @@ class PaintModule extends JPanel implements MouseMotionListener {
     private Point start = new Point(-10, -10);
     private Point end = new Point(-10, -10);
     public Point current = new Point();
-    public Point size = new Point(400, 300);
+    public Point size = new Point(500, 380);
     public JLabel coordinate = new JLabel("(0, 0)");
     public JLabel sizeLabel = new JLabel();
     private Line2D.Double line = new Line2D.Double();
@@ -24,7 +24,6 @@ class PaintModule extends JPanel implements MouseMotionListener {
     }
 
     public void changeSize(Point newSize) {
-        if(!newSize.equals(size)) {
             super.setVisible(false);
             this.setPreferredSize(new Dimension(size.x, size.y));
             BufferedImage tmpCanvas = canvas;
@@ -36,7 +35,7 @@ class PaintModule extends JPanel implements MouseMotionListener {
             buf.drawImage(canvas, 0, 0, null);
             buf.dispose();
             super.setVisible(true);
-        }
+
     }
 
     public void setImage (BufferedImage img) {
