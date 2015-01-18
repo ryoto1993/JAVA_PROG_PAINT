@@ -1,3 +1,8 @@
+/*
+ID:   1G130071
+NAME: 富岡亮登
+ */
+
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -77,7 +82,7 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
     public void createMenu(JMenuBar menu) {
         // component
         JMenu m_file, m_edit, m_canvas, m_help;
-        JMenuItem mi_new, mi_save, mi_open, mi_exit, mi_setCanvasColor, mi_setCanvasSize;
+        JMenuItem mi_new, mi_save, mi_open, mi_exit, mi_setCanvasColor, mi_setCanvasSize, mi_about;
 
         // set component
         m_file = new JMenu("File");
@@ -123,6 +128,11 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
         m_help = new JMenu("Help");
         m_help.setMnemonic(KeyEvent.VK_H);
 
+        mi_about = new JMenuItem("About");
+        mi_about.setMnemonic(KeyEvent.VK_A);
+        mi_about.addActionListener(this);
+        mi_about.setActionCommand("mi_about");
+
         // add into container
         menu.add(m_file);
         m_file.add(mi_new);
@@ -138,6 +148,7 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
         m_canvas.add(mi_setCanvasSize);
 
         menu.add(m_help);
+        m_help.add(mi_about);
     }
 
     public void createToolBox(JPanel box) {
@@ -272,6 +283,11 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
             paintModule.changeSize(dlg.showDialog());
             paintModule.setVisible(false);
             paintModule.setVisible(true);
+        }
+
+        if(e.getActionCommand().equals("mi_about")) {
+            About dlg = new About(this);
+
         }
 
         if(e.getActionCommand().equals("mi_open")) {

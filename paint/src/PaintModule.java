@@ -1,3 +1,8 @@
+/*
+ID:   1G130071
+NAME: 富岡亮登
+ */
+
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.event.MouseInputListener;
@@ -244,10 +249,10 @@ class PaintModule extends JPanel implements MouseInputListener {
                 break;
             case CIRCLE:
                 if(filled.isSelected()) {
-                    writeFillCircle(this.canvas.createGraphics(),this.BasicEllipse,
+                    writeFillCircle(this.canvas.createGraphics(), this.BasicEllipse,
                             currentColor,
-                            new BasicStroke(penSizeSlider.getValue(),BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
-                            ,this.startPoint,this.endPoint);
+                            new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                            , this.startPoint, this.endPoint);
                 } else {
                     writeCircle(actG, this.BasicEllipse,
                             currentColor,

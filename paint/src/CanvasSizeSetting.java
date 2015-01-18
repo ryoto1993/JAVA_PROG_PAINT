@@ -1,3 +1,8 @@
+/*
+ID:   1G130071
+NAME: 富岡亮登
+ */
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

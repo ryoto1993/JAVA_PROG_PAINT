@@ -1,3 +1,7 @@
+/*
+ID:   1G130071
+NAME: 富岡亮登
+ */
 
 public class ColorPicker {
     public final int colorList[][] = {
