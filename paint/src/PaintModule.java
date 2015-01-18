@@ -10,7 +10,7 @@ import java.awt.image.BufferedImage;
 
 class PaintModule extends JPanel implements MouseInputListener {
        public enum Mode {
-        PEN, LINE, ERASER
+        PEN, LINE, ERASER, RECTANGLE
     }
     private Point startPoint, endPoint, draggedPoint, releasedPoint;
     BufferedImage canvas;
@@ -106,26 +106,40 @@ class PaintModule extends JPanel implements MouseInputListener {
                         new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
                         ,this.startPoint,this.endPoint);
                 break;
+            case RECTANGLE:
+                writeRectangle(tmpG,this.BasicRectangle,
+                        currentColor,
+                        new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
+                        ,this.startPoint,this.endPoint);
+                break;
         }
 
         globalG.dispose();
         tmpG.dispose();
     }
 
-    private void writeFreeHand(Graphics2D globalG,Shape shape,Color c,Stroke s,Point start, Point end) {
-        globalG.setColor(c);
-        globalG.setStroke(s);
+    private void writeFreeHand(Graphics2D graphics,Shape shape,Color c,Stroke s,Point start, Point end) {
+        graphics.setColor(c);
+        graphics.setStroke(s);
         ((Line2D) shape).setLine(start,end);
         if(!start.equals(ZEROPOINT) && !end.equals(ZEROPOINT))
-            globalG.draw(shape);
+            graphics.draw(shape);
         start.setLocation(end);
     }
-    private void writeLine(Graphics2D globalG,Shape shape,Color c,Stroke s,Point start, Point end) {
-        globalG.setColor(c);
-        globalG.setStroke(s);
+    private void writeLine(Graphics2D graphics,Shape shape,Color c,Stroke s,Point start, Point end) {
+        graphics.setColor(c);
+        graphics.setStroke(s);
         ((Line2D) shape).setLine(start,end);
         if(!start.equals(ZEROPOINT) && !end.equals(ZEROPOINT)) {
-            globalG.draw(shape);
+            graphics.draw(shape);
+        }
+    }
+    private void writeRectangle(Graphics2D graphics,Shape shape,Color c,Stroke s,Point start, Point end) {
+        graphics.setColor(c);
+        graphics.setStroke(s);
+        ((Rectangle2D) shape).setRect(start.getX(),start.getY(),end.getX()-start.getX(), end.getY()-start.getY()) ;
+        if(!start.equals(ZEROPOINT) && !end.equals(ZEROPOINT)) {
+            graphics.draw(shape);
         }
     }
 
@@ -161,6 +175,12 @@ class PaintModule extends JPanel implements MouseInputListener {
                 break;
             case LINE:
                 writeLine(this.canvas.createGraphics(),this.BasicPen,
+                        currentColor,
+                        new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
+                        ,this.startPoint,this.endPoint);
+                break;
+            case RECTANGLE:
+                writeRectangle(this.canvas.createGraphics(),this.BasicRectangle,
                         currentColor,
                         new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
                         ,this.startPoint,this.endPoint);

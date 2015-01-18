@@ -133,7 +133,7 @@ class MainModule extends JFrame implements ActionListener {
         // create component
         JToggleButton toggleButtonPen = new JToggleButton("Pen", true);
         JToggleButton toggleButtonLine = new JToggleButton("Line");
-        JToggleButton toggleButtonEraser = new JToggleButton("Eraser");
+        JToggleButton toggleButtonRectangle = new JToggleButton("Rect.");
         JToggleButton toggleButtonSelect = new JToggleButton("Select");
         JToggleButton toggleButtonSquare = new JToggleButton("Square");
 
@@ -143,7 +143,7 @@ class MainModule extends JFrame implements ActionListener {
         box.setPreferredSize(new Dimension(70, this.getHeight()));
         toggleButtonPen.setMaximumSize(buttonDimension);
         toggleButtonLine.setMaximumSize(buttonDimension);
-        toggleButtonEraser.setMaximumSize(buttonDimension);
+        toggleButtonRectangle.setMaximumSize(buttonDimension);
         toggleButtonSelect.setMaximumSize(buttonDimension);
         toggleButtonSquare.setMaximumSize(buttonDimension);
 
@@ -152,21 +152,21 @@ class MainModule extends JFrame implements ActionListener {
         toggleButtonPen.setActionCommand("tool_pen");
         toggleButtonLine.addActionListener(this);
         toggleButtonLine.setActionCommand("tool_line");
-        toggleButtonEraser.addActionListener(this);
-        toggleButtonEraser.setActionCommand("tool_eraser");
+        toggleButtonRectangle.addActionListener(this);
+        toggleButtonRectangle.setActionCommand("tool_rectangle");
 
         // set button group
         ButtonGroup buttonGroupToolButton = new ButtonGroup();
         buttonGroupToolButton.add(toggleButtonPen);
         buttonGroupToolButton.add(toggleButtonLine);
-        buttonGroupToolButton.add(toggleButtonEraser);
+        buttonGroupToolButton.add(toggleButtonRectangle);
         buttonGroupToolButton.add(toggleButtonSelect);
         buttonGroupToolButton.add(toggleButtonSquare);
 
         // add into container
         box.add(toggleButtonPen);
         box.add(toggleButtonLine);
-        box.add(toggleButtonEraser);
+        box.add(toggleButtonRectangle);
         box.add(toggleButtonSelect);
         box.add(toggleButtonSquare);
 
@@ -229,7 +229,7 @@ class MainModule extends JFrame implements ActionListener {
             this.paintModule.clearCanvas();
             this.paintModule.repaint();
             this.paintBox.setPreferredSize(new Dimension(this.paintModule.size.x, this.paintModule.size.y));
-            this.mainbox.setPreferredSize(new Dimension(this.paintModule.size.x, this.paintModule.size.y));
+            //this.mainbox.setPreferredSize(new Dimension(this.paintModule.size.x, this.paintModule.size.y));
         }
 
         if(e.getActionCommand().equals("mi_set_size")) {
@@ -266,8 +266,8 @@ class MainModule extends JFrame implements ActionListener {
         if(e.getActionCommand().equals("tool_line"))
             paintModule.mode = PaintModule.Mode.LINE;
 
-        if(e.getActionCommand().equals("tool_eraser"))
-            paintModule.mode = PaintModule.Mode.ERASER;
+        if(e.getActionCommand().equals("tool_rectangle"))
+            paintModule.mode = PaintModule.Mode.RECTANGLE;
 
         // option button action
         for(int i=0; i<26; i++) {
