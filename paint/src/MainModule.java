@@ -178,7 +178,7 @@ class MainModule extends JFrame implements ActionListener {
         JPanel simpleColorPicker = new JPanel(new GridLayout(13,2));
         JToggleButton[] buttons = new JToggleButton[26];
         ButtonGroup buttonGroupColors = new ButtonGroup();
-        buttonColorPicker = new JToggleButton("MORE");
+        buttonColorPicker = new JToggleButton("Picker");
 
         for(int i=0; i<26; i++) {
             buttons[i] = new JToggleButton();
