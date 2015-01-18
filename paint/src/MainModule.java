@@ -1,9 +1,14 @@
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 class MainModule extends JFrame implements ActionListener {
     JMenuBar menu;
@@ -64,7 +69,7 @@ class MainModule extends JFrame implements ActionListener {
     public void createMenu(JMenuBar menu) {
         // component
         JMenu m_file, m_edit, m_canvas, m_help;
-        JMenuItem mi_new, mi_exit, mi_setCanvasSize;
+        JMenuItem mi_new, mi_save, mi_open, mi_exit, mi_setCanvasSize;
 
         // set component
         m_file = new JMenu("File");
@@ -74,6 +79,16 @@ class MainModule extends JFrame implements ActionListener {
         mi_new.setMnemonic(KeyEvent.VK_N);
         mi_new.addActionListener(this);
         mi_new.setActionCommand("mi_new");
+
+        mi_save = new JMenuItem("Save...");
+        mi_save.setMnemonic(KeyEvent.VK_S);
+        mi_save.addActionListener(this);
+        mi_save.setActionCommand("mi_save");
+
+        mi_open = new JMenuItem("Open...");
+        mi_open.setMnemonic(KeyEvent.VK_O);
+        mi_open.addActionListener(this);
+        mi_open.setActionCommand("mi_open");
 
         mi_exit = new JMenuItem("Exit");
         mi_exit.setMnemonic(KeyEvent.VK_X);
@@ -97,6 +112,9 @@ class MainModule extends JFrame implements ActionListener {
         // add into container
         menu.add(m_file);
         m_file.add(mi_new);
+        m_file.add(mi_open);
+        m_file.add(mi_save);
+        m_file.addSeparator();
         m_file.add(mi_exit);
 
         menu.add(m_edit);
@@ -183,6 +201,7 @@ class MainModule extends JFrame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
+        JFileChooser fileChooser = new JFileChooser();
         // menu item action
         if(e.getActionCommand().equals("mi_exit"))
             System.exit(1);
@@ -195,6 +214,28 @@ class MainModule extends JFrame implements ActionListener {
         if(e.getActionCommand().equals("mi_set_size")) {
             CanvasSizeSetting dlg = new CanvasSizeSetting(this, paintModule.size);
             paintModule.changeSize(dlg.showDialog());
+        }
+
+        if(e.getActionCommand().equals("mi_save")) {
+            FileFilter pngFilter = new FileNameExtensionFilter(
+                    "PNG(Portable Network Graphics) files", "png");
+            fileChooser.setFileFilter(pngFilter);
+            if(fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION) {
+                File selectedFile = fileChooser.getSelectedFile();
+                try {
+                    if (selectedFile.toString().substring(selectedFile.toString().length() - 4).equals(".png")) {
+                        ImageIO.write(paintModule.getCanvas(), "png", selectedFile);
+                    } else {
+                        File rename = new File(selectedFile + ".png");
+                        selectedFile.renameTo(rename);
+                        ImageIO.write(paintModule.getCanvas(), "png", rename);
+                    }
+
+                } catch(IOException exc) {
+                    exc.printStackTrace();
+                }
+            }
+
         }
 
         // tool button action
