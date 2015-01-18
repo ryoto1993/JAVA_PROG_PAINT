@@ -268,6 +268,29 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
             paintModule.changeSize(dlg.showDialog());
         }
 
+        if(e.getActionCommand().equals("mi_open")) {
+            if (fileChooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+                File file = fileChooser.getSelectedFile();
+                try{
+                    this.img = ImageIO.read(file);
+                    paintModule.clearCanvas();
+                    paintModule.setCanvas(this.img);
+                    paintModule.repaint();
+                    paintModule.setPreferredSize(new Dimension(this.img.getWidth(), this.img.getHeight()));
+                    paintModule.size.x = this.img.getWidth();
+                    paintModule.size.y = this.img.getHeight();
+                    paintModule.sizeLabel.setText(paintModule.size.x +"×"+ paintModule.size.y);
+                    paintModule.setVisible(false);
+                    paintModule.setVisible(true);
+
+                }catch(IOException ex){
+                    ex.printStackTrace();
+                }
+            }
+
+
+        }
+
         /*
         if(e.getActionCommand().equals("mi_set_color")) {
             JColorChooser chooser = new JColorChooser();
