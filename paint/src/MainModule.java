@@ -7,6 +7,7 @@ import java.awt.event.KeyEvent;
 class MainModule extends JFrame implements ActionListener {
     JMenuBar menu;
     JPanel mainbox, toolbox, optionbox, statusbar;
+    ColorPicker clr = new ColorPicker();
     public PaintModule paintModule;
 
     public MainModule() {
@@ -138,13 +139,17 @@ class MainModule extends JFrame implements ActionListener {
         for(int i=0; i<24; i++) {
             buttons[i] = new JToggleButton();
             buttonGroupColors.add(buttons[i]);
+            buttons[i].setBackground(new Color(
+                    clr.colorList[i][0],
+                    clr.colorList[i][1],
+                    clr.colorList[i][2]));
         }
         buttons[0].setSelected(true);
-        buttons[0].setForeground(new Color(230,0,18));
 
         // set component
-        box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
-        box.setPreferredSize(new Dimension(90, this.getHeight()));
+        simpleColorPicker.setPreferredSize(new Dimension(70, 300));
+        //box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
+        box.setPreferredSize(new Dimension(70, this.getHeight()));
 
         // add into container
         for(int i=0; i<24; i++) {
