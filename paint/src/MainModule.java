@@ -270,6 +270,8 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
         if(e.getActionCommand().equals("mi_set_size")) {
             CanvasSizeSetting dlg = new CanvasSizeSetting(this, paintModule.size);
             paintModule.changeSize(dlg.showDialog());
+            paintModule.setVisible(false);
+            paintModule.setVisible(true);
         }
 
         if(e.getActionCommand().equals("mi_open")) {
