@@ -3,11 +3,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 class MainModule extends JFrame implements ActionListener {
     JMenuBar menu;
     JPanel mainbox, toolbox, optionbox, statusbar;
     ColorPicker clr = new ColorPicker();
+    private BufferedImage img;
     public PaintModule paintModule;
 
     public MainModule() {
@@ -62,11 +64,16 @@ class MainModule extends JFrame implements ActionListener {
     public void createMenu(JMenuBar menu) {
         // component
         JMenu m_file, m_edit, m_canvas, m_help;
-        JMenuItem mi_exit, mi_setCanvasSize;
+        JMenuItem mi_new, mi_exit, mi_setCanvasSize;
 
         // set component
         m_file = new JMenu("File");
         m_file.setMnemonic(KeyEvent.VK_F);
+
+        mi_new = new JMenuItem("New File");
+        mi_new.setMnemonic(KeyEvent.VK_N);
+        mi_new.addActionListener(this);
+        mi_new.setActionCommand("mi_new");
 
         mi_exit = new JMenuItem("Exit");
         mi_exit.setMnemonic(KeyEvent.VK_X);
@@ -89,6 +96,7 @@ class MainModule extends JFrame implements ActionListener {
 
         // add into container
         menu.add(m_file);
+        m_file.add(mi_new);
         m_file.add(mi_exit);
 
         menu.add(m_edit);
@@ -110,7 +118,6 @@ class MainModule extends JFrame implements ActionListener {
         // set component
         box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
         box.setPreferredSize(new Dimension(60, this.getHeight()));
-        box.setBackground(Color.LIGHT_GRAY);
 
         // set button group
         ButtonGroup buttonGroupToolButton = new ButtonGroup();
@@ -139,6 +146,8 @@ class MainModule extends JFrame implements ActionListener {
         for(int i=0; i<24; i++) {
             buttons[i] = new JToggleButton();
             buttonGroupColors.add(buttons[i]);
+            buttons[i].addActionListener(this);
+            buttons[i].setActionCommand("color" + i);
             buttons[i].setBackground(new Color(
                     clr.colorList[i][0],
                     clr.colorList[i][1],
@@ -175,14 +184,27 @@ class MainModule extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         // menu item action
-        if(e.getActionCommand()=="mi_exit")
+        if(e.getActionCommand().equals("mi_exit"))
             System.exit(1);
 
-        if(e.getActionCommand()=="mi_set_size") {
+        if(e.getActionCommand().equals("mi_new")) {
+            img = null;
+            paintModule.setImage(img);
+        }
+
+        if(e.getActionCommand().equals("mi_set_size")) {
             CanvasSizeSetting dlg = new CanvasSizeSetting(this, paintModule.size);
             paintModule.changeSize(dlg.showDialog());
         }
 
         // tool button action
+        for(int i=0; i<24; i++) {
+            if(e.getActionCommand().equals("color"+i)) {
+                paintModule.setColor(new Color(
+                        clr.colorList[i][0],
+                        clr.colorList[i][1],
+                        clr.colorList[i][2]));
+            }
+        }
     }
 }

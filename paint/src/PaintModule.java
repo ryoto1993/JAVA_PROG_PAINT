@@ -13,6 +13,7 @@ class PaintModule extends JPanel implements MouseMotionListener {
     public JLabel coordinate = new JLabel("(0, 0)");
     public JLabel sizeLabel = new JLabel();
     private Line2D.Double line = new Line2D.Double();
+    Color currentColor = Color.RED;
     BufferedImage image, canvas = null;
 
     public PaintModule() {
@@ -23,21 +24,31 @@ class PaintModule extends JPanel implements MouseMotionListener {
     }
 
     public void changeSize(Point newSize) {
-        super.setVisible(false);
-        this.setPreferredSize(new Dimension(size.x, size.y));
-        BufferedImage tmpCanvas = canvas;
-        size.setLocation(newSize);
-        this.setSize(new Dimension(size.x, size.y));
-        sizeLabel.setText(size.x +"×"+ size.y);
-        canvas = (BufferedImage)createImage(size.x, size.y);
-        Graphics2D buf = tmpCanvas.createGraphics();
-        buf.drawImage(canvas, 0, 0, null);
-        buf.dispose();
-        super.setVisible(true);
+        if(!newSize.equals(size)) {
+            super.setVisible(false);
+            this.setPreferredSize(new Dimension(size.x, size.y));
+            BufferedImage tmpCanvas = canvas;
+            size.setLocation(newSize);
+            this.setSize(new Dimension(size.x, size.y));
+            sizeLabel.setText(size.x + "×" + size.y);
+            canvas = (BufferedImage) createImage(size.x, size.y);
+            Graphics2D buf = tmpCanvas.createGraphics();
+            buf.drawImage(canvas, 0, 0, null);
+            buf.dispose();
+            super.setVisible(true);
+        }
     }
 
     public void setImage (BufferedImage img) {
         image = img;
+        canvas = null;
+
+        start.x = -10;
+        start.y = -10;
+        end.x = -10;
+        end.y = -10;
+
+        repaint();
     }
 
     public void paint(Graphics g) {
@@ -51,12 +62,16 @@ class PaintModule extends JPanel implements MouseMotionListener {
         buf.drawImage(image, 0, 0, null);
         buf.drawImage(canvas, 0, 0, null);
         buf.setStroke(new BasicStroke(3.0f));
-        buf.setPaint(Color.RED);
+        buf.setPaint(currentColor);
         line.setLine(start, end);
         buf.draw(line);
         start.setLocation(end);
         g2.drawImage(canvas, 0, 0, null);
         buf.dispose();
+    }
+
+    public void setColor(Color color) {
+        currentColor = color;
     }
 
     public BufferedImage getCanvas(){
