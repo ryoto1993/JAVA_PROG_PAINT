@@ -168,6 +168,8 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
         paintModule.penSizeSlider.setAlignmentX(0.5f);
         separator.setMaximumSize(new Dimension(70, 10));
         penSizeLabel.setAlignmentX(0.5f);
+        paintModule.filled.setAlignmentX(0.5f);
+        paintModule.filled.setEnabled(false);
 
 
         // add listener
@@ -197,6 +199,8 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
         box.add(sliderLabel);
         box.add(paintModule.penSizeSlider);
         box.add(penSizeLabel);
+        box.add(separator);
+        box.add(paintModule.filled);
 
     }
 
@@ -324,17 +328,25 @@ class MainModule extends JFrame implements ActionListener, ChangeListener {
         }
 
         // tool button action
-        if(e.getActionCommand().equals("tool_pen"))
+        if(e.getActionCommand().equals("tool_pen")) {
             paintModule.setMode(PaintModule.Mode.PEN);
+            paintModule.filled.setEnabled(false);
+        }
 
-        if(e.getActionCommand().equals("tool_line"))
+        if(e.getActionCommand().equals("tool_line")) {
             paintModule.setMode(PaintModule.Mode.LINE);
+            paintModule.filled.setEnabled(false);
+        }
 
-        if(e.getActionCommand().equals("tool_rectangle"))
+        if(e.getActionCommand().equals("tool_rectangle")) {
             paintModule.setMode(PaintModule.Mode.RECTANGLE);
+            paintModule.filled.setEnabled(true);
+        }
 
-        if(e.getActionCommand().equals("tool_circle"))
+        if(e.getActionCommand().equals("tool_circle")) {
             paintModule.setMode(PaintModule.Mode.CIRCLE);
+            paintModule.filled.setEnabled(true);
+        }
 
         // option button action
         if(e.getActionCommand().equals("color_pick")) {

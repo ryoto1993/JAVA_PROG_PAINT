@@ -22,7 +22,8 @@ class PaintModule extends JPanel implements MouseInputListener {
     public Point size = new Point(500, 380);
     public JLabel coordinate = new JLabel("(0, 0)");
     public JLabel sizeLabel = new JLabel();
-    JSlider penSizeSlider = new JSlider(1, 20, 3);
+    public JSlider penSizeSlider = new JSlider(1, 20, 3);
+    public JCheckBox filled = new JCheckBox("Filled");
 
     public Color currentColor = Color.BLACK;
 
@@ -109,16 +110,30 @@ class PaintModule extends JPanel implements MouseInputListener {
                         ,this.startPoint,this.endPoint);
                 break;
             case RECTANGLE:
-                writeRectangle(tmpG,this.BasicRectangle,
-                        currentColor,
-                        new BasicStroke(penSizeSlider.getValue(),BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
-                        ,this.startPoint,this.endPoint);
+                if(filled.isSelected()) {
+                    writeFillRectangle(this.canvas.createGraphics(),this.BasicRectangle,
+                            currentColor,
+                            new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                            , this.startPoint, this.endPoint);
+                } else {
+                    writeRectangle(tmpG, this.BasicRectangle,
+                            currentColor,
+                            new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                            , this.startPoint, this.endPoint);
+                }
                 break;
             case CIRCLE:
-                writeCircle(tmpG, this.BasicEllipse,
-                        currentColor,
-                        new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
-                        , this.startPoint, this.endPoint);
+                if(filled.isSelected()) {
+                    writeFillCircle(tmpG, this.BasicEllipse,
+                            currentColor,
+                            new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                            , this.startPoint, this.endPoint);
+                } else {
+                    writeCircle(tmpG, this.BasicEllipse,
+                            currentColor,
+                            new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                            , this.startPoint, this.endPoint);
+                }
                 break;
         }
 
@@ -150,12 +165,28 @@ class PaintModule extends JPanel implements MouseInputListener {
             graphics.draw(shape);
         }
     }
+    private void writeFillRectangle(Graphics2D graphics,Shape shape,Color c,Stroke s,Point start, Point end) {
+        graphics.setColor(c);
+        graphics.setStroke(s);
+        ((Rectangle2D) shape).setRect(start.getX(),start.getY(),end.getX()-start.getX(), end.getY()-start.getY()) ;
+        if(!start.equals(ZEROPOINT) && !end.equals(ZEROPOINT)) {
+            graphics.fill(shape);
+        }
+    }
     private void writeCircle(Graphics2D graphics, Shape shape, Color c, Stroke s, Point start, Point end) {
         graphics.setColor(c);
         graphics.setStroke(s);
         ((Ellipse2D) shape).setFrameFromDiagonal(start,end);
         if(!start.equals(ZEROPOINT) && !end.equals(ZEROPOINT)) {
             graphics.draw(shape);
+        }
+    }
+    private void writeFillCircle(Graphics2D graphics,Shape shape,Color c,Stroke s,Point start, Point end) {
+        graphics.setColor(c);
+        graphics.setStroke(s);
+        ((Ellipse2D) shape).setFrameFromDiagonal(start,end);
+        if(!start.equals(ZEROPOINT) && !end.equals(ZEROPOINT)) {
+            graphics.fill(shape);
         }
     }
 
@@ -199,16 +230,30 @@ class PaintModule extends JPanel implements MouseInputListener {
                         ,this.startPoint,this.endPoint);
                 break;
             case RECTANGLE:
-                writeRectangle(actG,this.BasicRectangle,
-                        currentColor,
-                        new BasicStroke(penSizeSlider.getValue(),BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
-                        ,this.startPoint,this.endPoint);
+                if(filled.isSelected()) {
+                    writeFillRectangle(this.canvas.createGraphics(), this.BasicRectangle,
+                            currentColor,
+                            new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                            , this.startPoint, this.endPoint);
+                } else {
+                    writeRectangle(actG, this.BasicRectangle,
+                            currentColor,
+                            new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                            , this.startPoint, this.endPoint);
+                }
                 break;
             case CIRCLE:
-                writeCircle(actG, this.BasicEllipse,
-                        currentColor,
-                        new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
-                        , this.startPoint, this.endPoint);
+                if(filled.isSelected()) {
+                    writeFillCircle(this.canvas.createGraphics(),this.BasicEllipse,
+                            currentColor,
+                            new BasicStroke(penSizeSlider.getValue(),BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
+                            ,this.startPoint,this.endPoint);
+                } else {
+                    writeCircle(actG, this.BasicEllipse,
+                            currentColor,
+                            new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                            , this.startPoint, this.endPoint);
+                }
                 break;
         }
     }
