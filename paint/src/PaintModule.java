@@ -22,6 +22,7 @@ class PaintModule extends JPanel implements MouseInputListener {
     public Point size = new Point(500, 380);
     public JLabel coordinate = new JLabel("(0, 0)");
     public JLabel sizeLabel = new JLabel();
+    JSlider penSizeSlider = new JSlider(1, 20, 3);
 
     Color currentColor = Color.BLACK;
 
@@ -97,25 +98,25 @@ class PaintModule extends JPanel implements MouseInputListener {
         switch (mode) {
             case PEN:
                 writeFreeHand(globalG, this.BasicPen,
-                        currentColor, new BasicStroke(3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND),
+                        currentColor, new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND),
                         this.startPoint, this.endPoint);
                 break;
             case LINE:
                 writeLine(tmpG,this.BasicPen,
                         currentColor,
-                        new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
+                        new BasicStroke(penSizeSlider.getValue(),BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
                         ,this.startPoint,this.endPoint);
                 break;
             case RECTANGLE:
                 writeRectangle(tmpG,this.BasicRectangle,
                         currentColor,
-                        new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
+                        new BasicStroke(penSizeSlider.getValue(),BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
                         ,this.startPoint,this.endPoint);
                 break;
             case CIRCLE:
                 writeCircle(tmpG, this.BasicEllipse,
                         currentColor,
-                        new BasicStroke(3.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                        new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
                         , this.startPoint, this.endPoint);
                 break;
         }
@@ -190,20 +191,20 @@ class PaintModule extends JPanel implements MouseInputListener {
             case LINE:
                 writeLine(this.canvas.createGraphics(),this.BasicPen,
                         currentColor,
-                        new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
+                        new BasicStroke(penSizeSlider.getValue(),BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
                         ,this.startPoint,this.endPoint);
                 break;
             case RECTANGLE:
                 writeRectangle(this.canvas.createGraphics(),this.BasicRectangle,
                         currentColor,
-                        new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
+                        new BasicStroke(penSizeSlider.getValue(),BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
                         ,this.startPoint,this.endPoint);
                 break;
             case CIRCLE:
-                writeCircle(this.canvas.createGraphics(),this.BasicEllipse,
+                writeCircle(this.canvas.createGraphics(), this.BasicEllipse,
                         currentColor,
-                        new BasicStroke(3.0f,BasicStroke.CAP_ROUND  ,BasicStroke.JOIN_ROUND)
-                        ,this.startPoint,this.endPoint);
+                        new BasicStroke(penSizeSlider.getValue(), BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND)
+                        , this.startPoint, this.endPoint);
                 break;
         }
     }

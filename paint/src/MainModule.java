@@ -1,5 +1,7 @@
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
@@ -10,11 +12,12 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-class MainModule extends JFrame implements ActionListener {
+class MainModule extends JFrame implements ActionListener, ChangeListener {
     JMenuBar menu;
     JPanel paintBox, toolbox, optionbox, statusbar;
     JScrollPane mainbox;
     JToggleButton buttonColorPicker;
+    JLabel penSizeLabel;
     ColorPicker clr = new ColorPicker();
     private BufferedImage img;
     public PaintModule paintModule;
@@ -136,15 +139,29 @@ class MainModule extends JFrame implements ActionListener {
         JToggleButton toggleButtonLine = new JToggleButton("Line");
         JToggleButton toggleButtonRectangle = new JToggleButton("Rect.");
         JToggleButton toggleButtonCircle = new JToggleButton("Circle");
+        JLabel sliderLabel = new JLabel("Pen Size");
+        JLabel separator = new JLabel();
+        penSizeLabel = new JLabel("3px");
+
 
         // set component
-        Dimension buttonDimension = new Dimension(80, 30);
+        Dimension buttonDimension = new Dimension(75, 30);
         box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
-        box.setPreferredSize(new Dimension(70, this.getHeight()));
+        box.setPreferredSize(new Dimension(75, this.getHeight()));
         toggleButtonPen.setMaximumSize(buttonDimension);
+        toggleButtonPen.setAlignmentX(0.5f);
         toggleButtonLine.setMaximumSize(buttonDimension);
+        toggleButtonLine.setAlignmentX(0.5f);
         toggleButtonRectangle.setMaximumSize(buttonDimension);
+        toggleButtonRectangle.setAlignmentX(0.5f);
         toggleButtonCircle.setMaximumSize(buttonDimension);
+        toggleButtonCircle.setAlignmentX(0.5f);
+        sliderLabel.setAlignmentX(0.5f);
+        paintModule.penSizeSlider.setMaximumSize(new Dimension(65, 15));
+        paintModule.penSizeSlider.setAlignmentX(0.5f);
+        separator.setMaximumSize(new Dimension(70, 10));
+        penSizeLabel.setAlignmentX(0.5f);
+
 
         // add listener
         toggleButtonPen.addActionListener(this);
@@ -155,6 +172,7 @@ class MainModule extends JFrame implements ActionListener {
         toggleButtonRectangle.setActionCommand("tool_rectangle");
         toggleButtonCircle.addActionListener(this);
         toggleButtonCircle.setActionCommand("tool_circle");
+        paintModule.penSizeSlider.addChangeListener(this);
 
         // set button group
         ButtonGroup buttonGroupToolButton = new ButtonGroup();
@@ -168,6 +186,10 @@ class MainModule extends JFrame implements ActionListener {
         box.add(toggleButtonLine);
         box.add(toggleButtonRectangle);
         box.add(toggleButtonCircle);
+        box.add(separator);
+        box.add(sliderLabel);
+        box.add(paintModule.penSizeSlider);
+        box.add(penSizeLabel);
 
     }
 
@@ -290,5 +312,9 @@ class MainModule extends JFrame implements ActionListener {
                         clr.colorList[i][2]));
             }
         }
+    }
+
+    public void stateChanged(ChangeEvent e) {
+        penSizeLabel.setText(Integer.toString(paintModule.penSizeSlider.getValue())+"px");
     }
 }
