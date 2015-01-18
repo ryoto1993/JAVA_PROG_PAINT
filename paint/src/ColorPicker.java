@@ -1,6 +1,8 @@
 
 public class ColorPicker {
     public final int colorList[][] = {
+        {0,0,0},
+        {255,255,255},
         {230,0,18},
         {235,97,0},
         {243,152,0},

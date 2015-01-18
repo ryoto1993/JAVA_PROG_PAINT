@@ -174,12 +174,12 @@ class MainModule extends JFrame implements ActionListener {
 
     public void createOptionBox(JPanel box) {
         // create component
-        JPanel simpleColorPicker = new JPanel(new GridLayout(12,2));
-        JToggleButton[] buttons = new JToggleButton[24];
+        JPanel simpleColorPicker = new JPanel(new GridLayout(13,2));
+        JToggleButton[] buttons = new JToggleButton[26];
         JButton buttonColorPicker = new JButton("MORE");
         ButtonGroup buttonGroupColors = new ButtonGroup();
 
-        for(int i=0; i<24; i++) {
+        for(int i=0; i<26; i++) {
             buttons[i] = new JToggleButton();
             buttonGroupColors.add(buttons[i]);
             buttons[i].addActionListener(this);
@@ -197,7 +197,7 @@ class MainModule extends JFrame implements ActionListener {
         box.setPreferredSize(new Dimension(70, this.getHeight()));
 
         // add into container
-        for(int i=0; i<24; i++) {
+        for(int i=0; i<26; i++) {
             simpleColorPicker.add(buttons[i]);
         }
 

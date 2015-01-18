@@ -20,7 +20,7 @@ class PaintModule extends JPanel implements MouseInputListener {
     public JLabel sizeLabel = new JLabel();
     private Line2D.Double line = new Line2D.Double();
     private Shape BasicPen,BasicEllipse,BasicRectangle;
-    Color currentColor = Color.RED;
+    Color currentColor = Color.BLACK;
     BufferedImage image, canvas = null;
 
     public PaintModule() {
