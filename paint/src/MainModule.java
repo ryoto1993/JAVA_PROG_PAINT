@@ -137,6 +137,14 @@ class MainModule extends JFrame implements ActionListener {
         box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
         box.setPreferredSize(new Dimension(60, this.getHeight()));
 
+        // add listener
+        toggleButtonPen.addActionListener(this);
+        toggleButtonPen.setActionCommand("tool_pen");
+        toggleButtonPaintBrush.addActionListener(this);
+        toggleButtonPaintBrush.setActionCommand("tool_brush");
+        toggleButtonEraser.addActionListener(this);
+        toggleButtonEraser.setActionCommand("tool_eraser");
+
         // set button group
         ButtonGroup buttonGroupToolButton = new ButtonGroup();
         buttonGroupToolButton.add(toggleButtonPen);
@@ -202,6 +210,7 @@ class MainModule extends JFrame implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         JFileChooser fileChooser = new JFileChooser();
+
         // menu item action
         if(e.getActionCommand().equals("mi_exit"))
             System.exit(1);
@@ -239,6 +248,16 @@ class MainModule extends JFrame implements ActionListener {
         }
 
         // tool button action
+        if(e.getActionCommand().equals("tool_pen"))
+            paintModule.mode = PaintModule.Mode.PEN;
+
+        if(e.getActionCommand().equals("tool_brush"))
+            paintModule.mode = PaintModule.Mode.BRUSH;
+
+        if(e.getActionCommand().equals("tool_eraser"))
+            paintModule.mode = PaintModule.Mode.ERASER;
+
+        // option button action
         for(int i=0; i<24; i++) {
             if(e.getActionCommand().equals("color"+i)) {
                 paintModule.setColor(new Color(

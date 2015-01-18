@@ -6,8 +6,12 @@ import java.awt.geom.Line2D;
 import java.awt.image.BufferedImage;
 
 class PaintModule extends JPanel implements MouseMotionListener {
+    public enum Mode {
+        PEN, BRUSH, ERASER
+    }
     private Point start = new Point(-10, -10);
     private Point end = new Point(-10, -10);
+    public Mode mode = Mode.PEN;
     public Point current = new Point();
     public Point size = new Point(500, 380);
     public JLabel coordinate = new JLabel("(0, 0)");
@@ -57,7 +61,7 @@ class PaintModule extends JPanel implements MouseMotionListener {
             canvas = (BufferedImage)createImage(size.x, size.y);
 
         Graphics2D buf = canvas.createGraphics();
-        buf.setBackground(Color.WHITE);
+        //buf.setBackground(Color.WHITE);
         buf.drawImage(image, 0, 0, null);
         buf.drawImage(canvas, 0, 0, null);
         buf.setStroke(new BasicStroke(3.0f));
