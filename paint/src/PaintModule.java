@@ -1,14 +1,14 @@
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionListener;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
-class PaintModule extends JPanel implements MouseMotionListener {
-    public enum Mode {
+class PaintModule extends JPanel implements MouseInputListener {
+       public enum Mode {
         PEN, BRUSH, ERASER
     }
     private Point start = new Point(-10, -10);
@@ -97,5 +97,25 @@ class PaintModule extends JPanel implements MouseMotionListener {
         start.setLocation(e.getPoint());
         current.setLocation(e.getPoint());
         coordinate.setText("(" + e.getX() + ", " + e.getY() + ")");
+    }
+
+    public void mouseClicked(MouseEvent e) {
+
+    }
+
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    public void mouseExited(MouseEvent e) {
+
     }
 }
