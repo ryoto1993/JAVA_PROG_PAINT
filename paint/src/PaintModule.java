@@ -2,7 +2,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 class PaintModule extends JPanel implements MouseMotionListener {
@@ -17,11 +19,19 @@ class PaintModule extends JPanel implements MouseMotionListener {
     public JLabel coordinate = new JLabel("(0, 0)");
     public JLabel sizeLabel = new JLabel();
     private Line2D.Double line = new Line2D.Double();
+    private Shape BasicPen,BasicEllipse,BasicRectangle;
     Color currentColor = Color.RED;
     BufferedImage image, canvas = null;
 
     public PaintModule() {
         super.setVisible(true);
+
+        this.BasicPen =new Line2D.Double ();
+        this.BasicEllipse= new Ellipse2D.Double();
+        this.BasicRectangle= new Rectangle2D.Double();
+        this.setBackground(new Color(255, 255, 255));
+        this.setForeground(new Color(255, 255, 255));
+        this.setBackground(Color.white);
         this.setPreferredSize(new Dimension(size.x, size.y));
         sizeLabel.setText(size.x +"×"+ size.y);
         addMouseMotionListener(this);
@@ -30,14 +40,10 @@ class PaintModule extends JPanel implements MouseMotionListener {
     public void changeSize(Point newSize) {
             super.setVisible(false);
             this.setPreferredSize(new Dimension(size.x, size.y));
-            BufferedImage tmpCanvas = canvas;
             size.setLocation(newSize);
             this.setSize(new Dimension(size.x, size.y));
             sizeLabel.setText(size.x + "×" + size.y);
             canvas = (BufferedImage) createImage(size.x, size.y);
-            Graphics2D buf = tmpCanvas.createGraphics();
-            buf.drawImage(canvas, 0, 0, null);
-            buf.dispose();
             super.setVisible(true);
 
     }
@@ -61,7 +67,6 @@ class PaintModule extends JPanel implements MouseMotionListener {
             canvas = (BufferedImage)createImage(size.x, size.y);
 
         Graphics2D buf = canvas.createGraphics();
-        //buf.setBackground(Color.WHITE);
         buf.drawImage(image, 0, 0, null);
         buf.drawImage(canvas, 0, 0, null);
         buf.setStroke(new BasicStroke(3.0f));
