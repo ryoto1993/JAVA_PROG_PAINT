@@ -140,6 +140,7 @@ class MainModule extends JFrame implements ActionListener {
             buttonGroupColors.add(buttons[i]);
         }
         buttons[0].setSelected(true);
+        buttons[0].setForeground(new Color(230,0,18));
 
         // set component
         box.setLayout(new BoxLayout(box, BoxLayout.Y_AXIS));
